@@ -21,7 +21,9 @@ class ProfilePageState extends State<ProfilePage> {
         right: 20,
         left: 20,
       ),
-      child: const Text('Hello'),
+      child: const Center(
+        child: Text('Hello'),
+      ),
     );
   }
 }

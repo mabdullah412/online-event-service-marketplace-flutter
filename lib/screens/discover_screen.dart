@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
-import 'package:semester_project/screens/services_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_project/models/endpoint.dart';
+import './services_screen.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key}) : super(key: key);
@@ -12,13 +14,15 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class DiscoverPageState extends State<DiscoverPage> {
-  final url = 'http://10.0.2.2:3000/event_planner/api/categories';
-  // final url = 'http://192.168.1.84:3000/event_planner/api/categories';
-
   var allCategories = [];
   var categories = [];
+  bool foundCategories = false;
+  bool foundError = false;
 
   void getCategories() async {
+    // get url from EndPoint
+    final url = Provider.of<EndPoint>(context, listen: false).endpoint;
+
     try {
       final response = await get(Uri.parse(url));
       final jsonData = jsonDecode(response.body) as List;
@@ -26,8 +30,13 @@ class DiscoverPageState extends State<DiscoverPage> {
       setState(() {
         allCategories = jsonData;
         categories = allCategories;
+        foundCategories = true;
       });
-    } catch (err) {}
+    } catch (err) {
+      setState(() {
+        foundError = true;
+      });
+    }
   }
 
   @override
@@ -109,50 +118,57 @@ class DiscoverPageState extends State<DiscoverPage> {
           ),
           const SizedBox(height: 10),
           // ListView
-          Expanded(
-            child: ListView.builder(
-              itemCount: categories.length,
-              itemBuilder: (context, index) {
-                final category = categories[index];
+          if (foundCategories)
+            Expanded(
+              child: ListView.builder(
+                itemCount: categories.length,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
 
-                return Container(
-                  margin: const EdgeInsets.only(bottom: 10),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      primary: Colors.white,
-                      onPrimary: Colors.black,
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ServicesPage(
-                            cName: category['title'],
-                          ),
-                        ),
-                      );
-                    },
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        radius: 30,
-                        backgroundColor: const Color(0xFF333333),
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/icons/categories/' +
-                                category['image_title'],
-                          ),
-                        ),
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 10),
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.white,
+                        onPrimary: Colors.black,
+                        padding: const EdgeInsets.symmetric(vertical: 5),
                       ),
-                      title: Text(category['title']),
-                      subtitle: Text(category['description']),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ServicesPage(
+                              cName: category['title'],
+                            ),
+                          ),
+                        );
+                      },
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          radius: 30,
+                          backgroundColor: const Color(0xFF333333),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                              'assets/icons/categories/' +
+                                  category['image_title'],
+                            ),
+                          ),
+                        ),
+                        title: Text(category['title']),
+                        subtitle: Text(category['description']),
+                      ),
                     ),
-                  ),
-                );
-              },
+                  );
+                },
+              ),
+            )
+          else
+            const Expanded(
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
-          ),
         ],
       ),
     );

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // installed packages
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:semester_project/screens/settings_screen.dart';
 
 // screens
 import 'profile_screen.dart';
@@ -44,6 +45,23 @@ class _PageviewControllerState extends State<PageviewController> {
     return Scaffold(
       appBar: AppBar(
         title: Text(screenTitles[index]),
+        actions: [
+          if (index == 4)
+            IconButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SettingsPage(),
+                  ),
+                );
+              },
+              icon: const Icon(
+                PhosphorIcons.gearBold,
+                color: Color(0xFF333333),
+              ),
+            ),
+        ],
       ),
       // show screen on current index
       body: screens[index],
