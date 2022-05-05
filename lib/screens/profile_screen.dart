@@ -48,8 +48,6 @@ class ProfilePageState extends State<ProfilePage> {
                 child: Icon(PhosphorIcons.userBold),
                 backgroundColor: Color(0xFF333333),
                 radius: 30,
-                // minRadius: 50,
-                // maxRadius: 75,
               ),
               title: Text('Muhammad Abdullah'),
             ),

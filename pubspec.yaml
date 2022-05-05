@@ -35,7 +35,7 @@ flutter:
   uses-material-design: true
 
   assets:
-# illustration
+    # illustration
     - assets/illustrations/create_account.png
     - assets/illustrations/forgot_password.png
     - assets/illustrations/login.png
@@ -52,6 +52,10 @@ flutter:
     - assets/icons/categories/decoration.png
     - assets/icons/categories/halls.png
     - assets/icons/categories/photography.png
+    # test_images
+    - assets/test_images/car.jpg
+    - assets/test_images/car2.jpg
+    - assets/test_images/plants.jpg 
 
   fonts:
     - family: Poppins

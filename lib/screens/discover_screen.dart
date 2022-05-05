@@ -138,7 +138,9 @@ class DiscoverPageState extends State<DiscoverPage> {
                           context,
                           MaterialPageRoute(
                             builder: (context) => ServicesPage(
-                              cName: category['title'],
+                              cTitle: category['title'],
+                              cDescription: category['description'],
+                              cImageTitle: category['image_title'],
                             ),
                           ),
                         );
