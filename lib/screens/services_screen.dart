@@ -2,6 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_project/models/endpoint.dart';
+import 'package:semester_project/widgets/service_tile.dart';
 
 class ServicesPage extends StatefulWidget {
   const ServicesPage({Key? key, required this.cName}) : super(key: key);
@@ -14,24 +17,23 @@ class ServicesPage extends StatefulWidget {
 }
 
 class _ServicesPageState extends State<ServicesPage> {
-  // api endpoint
-  // final url = 'http://10.0.2.2:3000/event_planner/api/';
-  final url = 'http://192.168.1.39:3000/event_planner/api/';
+  // void getData() async {
+  //   // api endpoint
+  //   final url = Provider.of<EndPoint>(context, listen: false).endpoint;
 
-  void getData() async {
-    try {
-      final response = await get(Uri.parse(url + widget.cName.toLowerCase()));
-      final jsonData = jsonDecode(response.body) as List;
+  //   try {
+  //     final response = await get(Uri.parse(url + widget.cName.toLowerCase()));
+  //     final jsonData = jsonDecode(response.body) as List;
 
-      setState(() {});
-    } catch (err) {}
-  }
+  //     setState(() {});
+  //   } catch (err) {}
+  // }
 
   @override
   void initState() {
     super.initState();
     // geting specific category data
-    getData();
+    // getData();
   }
 
   @override
@@ -43,8 +45,22 @@ class _ServicesPageState extends State<ServicesPage> {
         ),
         title: Text(widget.cName),
       ),
-      body: Center(
-        child: Text(widget.cName),
+      body: Container(
+        // width
+        width: MediaQuery.of(context).size.width,
+        // bg-color
+        color: const Color(0xFFF8F8F8),
+        // padding
+        padding: const EdgeInsets.only(
+          top: 30,
+          right: 20,
+          left: 20,
+        ),
+        child: Column(
+          children: [
+            ServiceTile(),
+          ],
+        ),
       ),
     );
   }

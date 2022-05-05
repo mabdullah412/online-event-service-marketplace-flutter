@@ -163,10 +163,33 @@ class DiscoverPageState extends State<DiscoverPage> {
                 },
               ),
             )
-          else
+          // * if error not found, display spinner
+          else if (foundError == false)
             const Expanded(
               child: Center(
                 child: CircularProgressIndicator(),
+              ),
+            )
+          // * if error is found, remove spinner and display error msg.
+          else
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/illustrations/page_not_found.png',
+                      width: 150,
+                    ),
+                    const SizedBox(height: 20),
+                    const Text(
+                      'Error fetching results.',
+                      style: TextStyle(
+                        color: Color(0xFF777777),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
         ],

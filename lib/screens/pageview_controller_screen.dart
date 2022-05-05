@@ -19,13 +19,20 @@ class PageviewController extends StatefulWidget {
 }
 
 class _PageviewControllerState extends State<PageviewController> {
+  // gotoScreen functions
+  // void _goToDiscoverScreen() {
+  //   setState(() {
+  //     index = 2;
+  //   });
+  // }
+
   // screens
-  final screens = const [
-    HomePage(),
-    InboxPage(),
-    DiscoverPage(),
-    OrdersPage(),
-    ProfilePage(),
+  final screens = [
+    const HomePage(),
+    const InboxPage(),
+    const DiscoverPage(),
+    const OrdersPage(),
+    const ProfilePage(),
   ];
 
   // appbar titles
@@ -52,7 +59,7 @@ class _PageviewControllerState extends State<PageviewController> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => SettingsPage(),
+                    builder: (context) => const SettingsPage(),
                   ),
                 );
               },

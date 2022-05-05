@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project/widgets/orders_container.dart';
+import 'package:semester_project/widgets/packages_container.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({Key? key}) : super(key: key);
@@ -9,9 +11,10 @@ class OrdersPage extends StatefulWidget {
 
 class OrdersPageState extends State<OrdersPage> {
   // styling
-  // light-text
-  final lightTextStyle = const TextStyle(
-    color: Color(0xFF777777),
+  // heading-text
+  final headingTextStyle = const TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.w600,
   );
 
   @override
@@ -23,40 +26,28 @@ class OrdersPageState extends State<OrdersPage> {
       color: const Color(0xFFF8F8F8),
       // padding
       padding: const EdgeInsets.only(
-        top: 40,
+        top: 30,
         right: 20,
         left: 20,
       ),
-      child: Center(
+      child: SizedBox(
+        width: MediaQuery.of(context).size.width,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.asset(
-              'assets/illustrations/empty_orders_list.png',
-              width: 150,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
             Text(
-              'No orders yet',
-              style: lightTextStyle,
+              'Orders',
+              style: headingTextStyle,
             ),
+            const SizedBox(height: 60),
+            const OrdersContainer(),
+            const SizedBox(height: 80),
             Text(
-              'Find the right service for you.',
-              style: lightTextStyle,
-              textAlign: TextAlign.center,
+              'Packages',
+              style: headingTextStyle,
             ),
-            const Padding(
-              padding: EdgeInsets.only(top: 10),
-              child: Text(
-                'Explore the marketplace',
-                style: TextStyle(
-                  fontWeight: FontWeight.w500,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
+            const SizedBox(height: 60),
+            const PackagesContainer(),
           ],
         ),
       ),

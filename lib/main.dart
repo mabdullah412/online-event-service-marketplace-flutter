@@ -47,7 +47,7 @@ class MyApp extends StatelessWidget {
         ),
 
         // home
-        home: PageviewController(),
+        home: const PageviewController(),
       ),
     );
   }
