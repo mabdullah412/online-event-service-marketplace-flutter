@@ -9,8 +9,11 @@ class ServiceTile extends StatelessWidget {
     required this.sDescription,
     required this.sPrice,
     required this.sRating,
+    required this.sSeller,
   }) : super(key: key);
 
+  // service seller
+  final String sSeller;
   // service name
   final String sName;
   // service description
@@ -56,6 +59,33 @@ class ServiceTile extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // * seller profile
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // * avatar and name
+              Row(
+                children: [
+                  const CircleAvatar(
+                    child: Icon(PhosphorIcons.user, color: Colors.white),
+                    radius: 20,
+                    backgroundColor: Color(0xFF333333),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(sSeller),
+                ],
+              ),
+              // * menu
+              IconButton(
+                onPressed: () {},
+                tooltip: 'Menu',
+                icon: const Icon(PhosphorIcons.dotsThreeBold, size: 30),
+              ),
+            ],
+          ),
+
+          const SizedBox(height: 20),
+
           // * service image
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
@@ -131,6 +161,8 @@ class ServiceTile extends StatelessWidget {
               ),
             ],
           ),
+
+          // * divider
           const Divider(color: Color(0xFF999999)),
 
           // * Buttons

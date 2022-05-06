@@ -103,15 +103,14 @@ class HomePageState extends State<HomePage> {
                       color: primaryTextColor,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    child: Text(
-                      'Create your own custom packages by adding the services you desire and pay for the whole package in one click.',
-                      style: TextStyle(
-                        color: Color(0xFF777777),
-                      ),
+                  const SizedBox(height: 10),
+                  const Text(
+                    'Create your own custom packages by adding the services you desire and pay for the whole package in one click.',
+                    style: TextStyle(
+                      color: Color(0xFF777777),
                     ),
                   ),
+                  const SizedBox(height: 10),
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 50,

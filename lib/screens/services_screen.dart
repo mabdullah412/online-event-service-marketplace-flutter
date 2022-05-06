@@ -27,6 +27,19 @@ class ServicesPage extends StatefulWidget {
 }
 
 class _ServicesPageState extends State<ServicesPage> {
+  // * -- styling --
+  // container-decorations
+  // 1. border-radius
+  final containerRadius = BorderRadius.circular(10);
+  // 2. box-shadow
+  final containerShadow = const [
+    BoxShadow(
+      color: Color.fromARGB(15, 0, 0, 0),
+      blurRadius: 6,
+      offset: Offset(0, 3),
+    ),
+  ];
+
   // void getData() async {
   //   // api endpoint
   //   final url = Provider.of<EndPoint>(context, listen: false).endpoint;
@@ -68,6 +81,69 @@ class _ServicesPageState extends State<ServicesPage> {
           ),
           child: Column(
             children: [
+              // * filter
+              Container(
+                // width
+                width: MediaQuery.of(context).size.width,
+                // margin
+                margin: const EdgeInsets.only(bottom: 20),
+                // decoration
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: containerShadow,
+                  borderRadius: containerRadius,
+                ),
+                padding: const EdgeInsets.symmetric(
+                  vertical: 25,
+                  horizontal: 25,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const Text(
+                      'Filter services',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    // * search service
+                    const TextField(
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(
+                          borderSide: BorderSide.none,
+                          borderRadius: BorderRadius.all(Radius.circular(50)),
+                        ),
+                        hintText: 'Search service',
+                        prefixIcon: Icon(PhosphorIcons.magnifyingGlass),
+                        filled: true,
+                        fillColor: Color(0xFFF8F8F8),
+                      ),
+                    ),
+
+                    const SizedBox(height: 15),
+
+                    // * apply filter btn
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Apply'),
+                      style: ButtonStyle(
+                        shape:
+                            MaterialStateProperty.all<RoundedRectangleBorder>(
+                          RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(25),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              // * divider
               const Divider(color: Color(0xFF999999)),
               const SizedBox(height: 20),
 
@@ -93,6 +169,7 @@ class _ServicesPageState extends State<ServicesPage> {
                       ),
                     ],
                   ),
+
                   // * add to package button
                   Column(
                     children: const [
@@ -113,10 +190,15 @@ class _ServicesPageState extends State<ServicesPage> {
                   ),
                 ],
               ),
+
+              // * divider
               const SizedBox(height: 20),
               const Divider(color: Color(0xFF999999)),
               const SizedBox(height: 20),
+
+              // * service tiles
               ServiceTile(
+                sSeller: 'Muhammad Abdullah',
                 sName: 'BMW shadi car',
                 sPrice: 8000,
                 sRating: 4,
@@ -125,6 +207,7 @@ class _ServicesPageState extends State<ServicesPage> {
                 imageAddress: 'assets/test_images/car.jpg',
               ),
               ServiceTile(
+                sSeller: 'Hamza Hall Rentals',
                 sName: 'Plant wedding hall',
                 sPrice: 22000,
                 sRating: 4.9,
@@ -133,6 +216,7 @@ class _ServicesPageState extends State<ServicesPage> {
                 imageAddress: 'assets/test_images/plants.jpg',
               ),
               ServiceTile(
+                sSeller: 'Police car services',
                 sName: 'Porsche black car',
                 sPrice: 10000,
                 sRating: 4.5,
