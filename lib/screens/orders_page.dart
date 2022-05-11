@@ -41,7 +41,7 @@ class OrdersPageState extends State<OrdersPage> {
             ),
             const SizedBox(height: 60),
             const OrdersContainer(),
-            const SizedBox(height: 80),
+            const SizedBox(height: 60),
             Text(
               'Packages',
               style: headingTextStyle,

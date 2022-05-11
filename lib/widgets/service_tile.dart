@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:semester_project/widgets/add_to_package.dart';
 
 class ServiceTile extends StatelessWidget {
   ServiceTile({
@@ -37,6 +38,23 @@ class ServiceTile extends StatelessWidget {
       offset: Offset(0, 3),
     ),
   ];
+
+  // * open modal sheet for adding to package
+  void _addToPackage(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return const AddToPackage();
+      },
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      backgroundColor: Colors.white,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -194,7 +212,9 @@ class ServiceTile extends StatelessWidget {
 
                   // * add to package Button
                   IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      _addToPackage(context);
+                    },
                     tooltip: 'Add to package',
                     icon: const Icon(PhosphorIcons.listPlus),
                   ),

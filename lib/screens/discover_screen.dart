@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
-import './services_screen.dart';
+import 'package:semester_project/widgets/create_package.dart';
+import 'services_page.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key}) : super(key: key);
@@ -21,7 +22,9 @@ class DiscoverPageState extends State<DiscoverPage> {
 
   void getCategories() async {
     // get url from EndPoint
-    final url = Provider.of<EndPoint>(context, listen: false).endpoint;
+    var url = Provider.of<EndPoint>(context, listen: false).endpoint;
+    url += 'category/';
+    url += 'e264252b7c1f2c203e0c30dce207fbce89381704c53810bc1bb2826a4bdcc3e6';
 
     try {
       final response = await get(Uri.parse(url));
@@ -42,7 +45,7 @@ class DiscoverPageState extends State<DiscoverPage> {
   @override
   void initState() {
     super.initState();
-    // getting categories
+    // * getting categories
     getCategories();
   }
 

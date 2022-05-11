@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project/widgets/create_package.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,6 +32,23 @@ class HomePageState extends State<HomePage> {
     ),
   );
 
+  // * create package
+  void _createPackage(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return const CreatePackage();
+      },
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      backgroundColor: Colors.white,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -49,44 +67,93 @@ class HomePageState extends State<HomePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // welcome message
-            Text(
-              'Hi, Good Morning',
-              style: TextStyle(
-                color: primaryTextColor,
-              ),
+            // * welcome message
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Hi, Good Morning',
+                  style: TextStyle(
+                    color: primaryTextColor,
+                  ),
+                ),
+                Text(
+                  'Muhammad Abdullah',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w600,
+                    color: primaryTextColor,
+                  ),
+                ),
+              ],
             ),
-            Text(
-              'Muhammad Abdullah',
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                color: primaryTextColor,
-              ),
-            ),
-            // carousel
+
+            const SizedBox(height: 20),
+
+            // * carousel
             Container(
-              // margin
-              margin: const EdgeInsets.only(
-                top: 25,
-              ),
               // constraints
               width: MediaQuery.of(context).size.width,
-              height: 300,
+
+              // height
+              // 265 => appbar height + paddings + navbar height + white-spacing
+              height: MediaQuery.of(context).size.height - 270,
+
+              // padding
+              padding: const EdgeInsets.all(15),
+
               // child
-              child: const Center(
-                child: Text('Carousel'),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: const [
+                        Text(
+                          'Explore Services',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w700,
+                            height: 1.5,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Find the services that best suit your event.',
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    height: 150,
+                    // decoration
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(200, 255, 255, 255),
+                      borderRadius: containerRadius,
+                    ),
+                  ),
+                ],
               ),
+
               // decoration
               decoration: BoxDecoration(
                 color: Colors.white,
                 boxShadow: containerShadow,
                 borderRadius: containerRadius,
+                image: const DecorationImage(
+                  image: AssetImage('assets/cover_images/cover_image3.jpg'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
-            // create a package
+
+            const SizedBox(height: 20),
+
+            // * create a package
             Container(
-              // margin
-              margin: const EdgeInsets.only(top: 25),
               // padding
               padding: const EdgeInsets.all(20),
               // constraints
@@ -115,7 +182,9 @@ class HomePageState extends State<HomePage> {
                     width: MediaQuery.of(context).size.width,
                     height: 50,
                     child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _createPackage(context);
+                      },
                       child: const Text('Create package'),
                       style: packageButtonStyle,
                     ),

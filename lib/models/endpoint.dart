@@ -6,11 +6,11 @@ import 'package:flutter/material.dart';
 */
 
 class EndPoint with ChangeNotifier {
-  String endpoint = 'http://192.168.1.39:3000/event_planner/api/category';
+  String endpoint = 'http://192.168.120.84:3000/event_planner/api/';
 
-  // sets new enpoint
+  // * sets new enpoint
   void setEndpoint(String endpoint) {
-    this.endpoint = 'http://' + endpoint + ':3000/event_planner/api/category';
+    this.endpoint = 'http://' + endpoint + ':3000/event_planner/api/';
     notifyListeners();
   }
 }

@@ -36,26 +36,13 @@ flutter:
 
   assets:
     # illustration
-    - assets/illustrations/create_account.png
-    - assets/illustrations/forgot_password.png
-    - assets/illustrations/login.png
-    - assets/illustrations/upload_image.png
-    - assets/illustrations/empty_list.png
-    - assets/illustrations/no_messages.png
-    - assets/illustrations/empty_orders_list.png
-    - assets/illustrations/page_not_found.png
-    - assets/illustrations/empty_cart.png
-    - assets/illustrations/no_packages.png
+    - assets/illustrations/
     # categories
-    - assets/icons/categories/car_rental.png
-    - assets/icons/categories/catering.png
-    - assets/icons/categories/decoration.png
-    - assets/icons/categories/halls.png
-    - assets/icons/categories/photography.png
+    - assets/icons/categories/
     # test_images
-    - assets/test_images/car.jpg
-    - assets/test_images/car2.jpg
-    - assets/test_images/plants.jpg 
+    - assets/test_images/
+    # cover_images for home page
+    - assets/cover_images/
 
   fonts:
     - family: Poppins

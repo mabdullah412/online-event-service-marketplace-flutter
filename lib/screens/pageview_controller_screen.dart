@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 // installed packages
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:semester_project/screens/settings_screen.dart';
+import 'package:semester_project/screens/settings_page.dart';
 
 // screens
-import 'profile_screen.dart';
-import 'orders_screen.dart';
+import 'profile_page.dart';
+import 'orders_page.dart';
 import 'discover_screen.dart';
-import 'inbox_screen.dart';
-import 'home_screen.dart';
+import 'inbox_page.dart';
+import 'home_page.dart';
 
 class PageviewController extends StatefulWidget {
   const PageviewController({Key? key}) : super(key: key);
