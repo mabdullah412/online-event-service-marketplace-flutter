@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:semester_project/screens/service_page.dart';
 import 'package:semester_project/widgets/add_to_package.dart';
 
 class ServiceTile extends StatelessWidget {
@@ -193,7 +194,21 @@ class ServiceTile extends StatelessWidget {
                 child: SizedBox(
                   height: 45,
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ServicePage(
+                            sSeller: sSeller,
+                            sName: sName,
+                            sDescription: sDescription,
+                            sRating: sRating,
+                            sPrice: sPrice,
+                            imageAddress: imageAddress,
+                          ),
+                        ),
+                      );
+                    },
                     child: const Text('Learn more'),
                     style: ElevatedButton.styleFrom(
                       padding: const EdgeInsets.symmetric(horizontal: 30),

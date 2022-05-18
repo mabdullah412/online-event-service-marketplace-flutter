@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
-import 'package:semester_project/widgets/create_package.dart';
 import 'services_page.dart';
 
 class DiscoverPage extends StatefulWidget {
@@ -30,15 +29,21 @@ class DiscoverPageState extends State<DiscoverPage> {
       final response = await get(Uri.parse(url));
       final jsonData = jsonDecode(response.body) as List;
 
-      setState(() {
-        allCategories = jsonData;
-        categories = allCategories;
-        foundCategories = true;
-      });
+      // ! (checking mounted), to see that if the widget is still in the tree or not
+      if (mounted) {
+        setState(() {
+          allCategories = jsonData;
+          categories = allCategories;
+          foundCategories = true;
+        });
+      }
     } catch (err) {
-      setState(() {
-        foundError = true;
-      });
+      // ! (checking mounted), to see that if the widget is still in the tree or not
+      if (mounted) {
+        setState(() {
+          foundError = true;
+        });
+      }
     }
   }
 
@@ -210,8 +215,11 @@ class DiscoverPageState extends State<DiscoverPage> {
       return categoryTitle.contains(input);
     }).toList();
 
-    setState(() {
-      categories = suggestion;
-    });
+    // ! (checking mounted), to see that if the widget is still in the tree or not
+    if (mounted) {
+      setState(() {
+        categories = suggestion;
+      });
+    }
   }
 }

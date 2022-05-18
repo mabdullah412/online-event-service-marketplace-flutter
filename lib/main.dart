@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
+import 'package:semester_project/screens/authentication_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 // screens
 import './screens/pageview_controller_screen.dart';
 
-void main() {
-  runApp(const MyApp());
+Future main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  // ! used to check, if signUp/logIn screen needs to be shown or not
+  final localUserData = await SharedPreferences.getInstance();
+  await localUserData.setBool('ep_loggedin', false);
+  final isLoggedIn = localUserData.getBool('ep_loggedin') ?? false;
+
+  runApp(
+    MyApp(isLoggedIn: isLoggedIn),
+  );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({Key? key, required this.isLoggedIn}) : super(key: key);
+  final bool isLoggedIn;
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -25,10 +36,10 @@ class MyApp extends StatelessWidget {
 
       // * app
       child: MaterialApp(
-        // title
+        // * title
         title: 'Event Planner',
 
-        // theme
+        // * theme
         theme: ThemeData(
           fontFamily: 'Poppins',
           colorScheme: ColorScheme.fromSwatch().copyWith(
@@ -49,8 +60,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
 
-        // home
-        home: const PageviewController(),
+        // * home
+        home: isLoggedIn
+            ? const PageviewController()
+            : const AuthenticationScreen(),
       ),
     );
   }
