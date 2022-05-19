@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:semester_project/widgets/create_package.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -49,6 +50,26 @@ class HomePageState extends State<HomePage> {
     );
   }
 
+  String username = '';
+
+  // ! shared-preferences, to get [username] of the user stored on device
+  late SharedPreferences localUserData;
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  Future init() async {
+    localUserData = await SharedPreferences.getInstance();
+    String storedName = localUserData.getString('ep_username') as String;
+
+    setState(() {
+      username = storedName;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -78,7 +99,7 @@ class HomePageState extends State<HomePage> {
                   ),
                 ),
                 Text(
-                  'Muhammad Abdullah',
+                  username,
                   style: TextStyle(
                     fontWeight: FontWeight.w600,
                     color: primaryTextColor,

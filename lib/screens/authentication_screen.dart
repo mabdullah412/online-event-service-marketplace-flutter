@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+// import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
-import 'package:semester_project/screens/home_page.dart';
-import 'package:semester_project/screens/pageview_controller_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
+import 'package:semester_project/screens/pageview_controller_screen.dart';
 import './forgot_password_screen.dart';
 
 enum AuthMode { signup, login }
@@ -136,14 +136,18 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     url += 'addUser';
 
     try {
-      final respose = await post(
-        Uri.parse(url),
-        body: {
-          'id': DateTime.now().toString(),
-          'name': nameText,
-          'email': emailText,
-          'password': passwordText,
-        },
+      // ! converting to formData
+      FormData formData = FormData.fromMap({
+        'id': DateTime.now().toString(),
+        'name': nameText,
+        'email': emailText,
+        'password': passwordText,
+      });
+
+      // ! sending POST request
+      final response = await Dio().post(
+        url,
+        data: formData,
       );
 
       // ! clear text fields
@@ -153,7 +157,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       FocusManager.instance.primaryFocus?.unfocus();
 
       // *
-      if (respose.body == 'email already used') {
+      if (response.toString() == 'email already used') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Email already used'),
@@ -222,12 +226,16 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     url += 'loginUser';
 
     try {
-      final respose = await post(
-        Uri.parse(url),
-        body: {
-          'email': emailText,
-          'password': passwordText,
-        },
+      // ! converting to formData
+      FormData formData = FormData.fromMap({
+        'email': emailText,
+        'password': passwordText,
+      });
+
+      // ! sending POST request
+      final response = await Dio().post(
+        url,
+        data: formData,
       );
 
       // ! clear text fields
@@ -238,7 +246,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       FocusManager.instance.primaryFocus?.unfocus();
 
       // !
-      if (respose.body == 'invalid data') {
+      if (response.toString() == 'invalid data') {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('⚠ Email or password is incorrect'),
@@ -246,11 +254,9 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         );
       } else {
         // ! if user logged in, the server sends [name, email, token]
-        final jsonData = jsonDecode(respose.body) as List;
-
-        final name = jsonData[0]['name'];
-        final email = jsonData[0]['email'];
-        final token = jsonData[0]['token'];
+        final name = response.data[0]['name'];
+        final email = response.data[0]['email'];
+        final token = response.data[0]['token'];
 
         // * storing data locally
         await localUserData.setString('ep_username', name);

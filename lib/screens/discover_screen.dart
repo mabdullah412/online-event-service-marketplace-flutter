@@ -1,7 +1,5 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart';
+import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
 import 'services_page.dart';
@@ -26,8 +24,10 @@ class DiscoverPageState extends State<DiscoverPage> {
     url += 'e264252b7c1f2c203e0c30dce207fbce89381704c53810bc1bb2826a4bdcc3e6';
 
     try {
-      final response = await get(Uri.parse(url));
-      final jsonData = jsonDecode(response.body) as List;
+      // final response = await get(Uri.parse(url));
+      final response = await Dio().get(url);
+
+      final jsonData = response.data as List;
 
       // ! (checking mounted), to see that if the widget is still in the tree or not
       if (mounted) {
