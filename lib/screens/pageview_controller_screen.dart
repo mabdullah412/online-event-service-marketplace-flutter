@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 // installed packages
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_project/models/token.dart';
 import 'package:semester_project/screens/settings_page.dart';
 
 // screens
@@ -46,6 +48,11 @@ class _PageviewControllerState extends State<PageviewController> {
 
   // showing home page at start
   int index = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

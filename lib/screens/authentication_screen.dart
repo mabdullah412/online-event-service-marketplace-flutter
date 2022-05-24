@@ -1,7 +1,4 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-// import 'package:http/http.dart';
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
@@ -105,6 +102,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚠ Name cannot be empty'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
         ),
       );
 
@@ -113,6 +117,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚠ Email cannot be empty'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
         ),
       );
 
@@ -121,6 +132,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚠ Password cannot be empty'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
         ),
       );
 
@@ -138,7 +156,6 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     try {
       // ! converting to formData
       FormData formData = FormData.fromMap({
-        'id': DateTime.now().toString(),
         'name': nameText,
         'email': emailText,
         'password': passwordText,
@@ -161,6 +178,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Email already used'),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 20,
+            ),
+            duration: Duration(seconds: 2),
           ),
         );
 
@@ -170,6 +194,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('👍 Sign up successfull'),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 20,
+            ),
+            duration: Duration(seconds: 2),
           ),
         );
 
@@ -183,6 +214,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚠ Could not sign up'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
         ),
       );
     }
@@ -202,6 +240,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚠ Email cannot be empty'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
         ),
       );
 
@@ -210,6 +255,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚠ Password cannot be empty'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
         ),
       );
 
@@ -250,6 +302,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('⚠ Email or password is incorrect'),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 20,
+            ),
+            duration: Duration(seconds: 2),
           ),
         );
       } else {
@@ -269,6 +328,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('👍 Log in successfull'),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 20,
+            ),
+            duration: Duration(seconds: 2),
           ),
         );
 
@@ -282,6 +348,13 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('⚠ Could not log in'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
         ),
       );
     }
@@ -504,21 +577,6 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                   ],
                 ),
               ),
-
-              // * testing local storage
-              // Text('Name: ' + localStoredName),
-              // ElevatedButton(
-              //   onPressed: () async {
-              //     String? storedUsername = localUserData.getString('ep_token');
-
-              //     if (storedUsername == null) return;
-
-              //     setState(() {
-              //       localStoredName = storedUsername;
-              //     });
-              //   },
-              //   child: const Text('Load'),
-              // ),
             ],
           ),
         ),

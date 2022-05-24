@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
+import 'package:semester_project/models/user_mode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'services_page.dart';
 
 class DiscoverPage extends StatefulWidget {
@@ -12,16 +14,42 @@ class DiscoverPage extends StatefulWidget {
 }
 
 class DiscoverPageState extends State<DiscoverPage> {
+  // -- styling --
+  // container-decorations
+  // 1. border-radius
+  final containerRadius = BorderRadius.circular(10);
+  // 2. box-shadow
+  final containerShadow = const [
+    BoxShadow(
+      color: Color.fromARGB(15, 0, 0, 0),
+      blurRadius: 6,
+      offset: Offset(0, 3),
+    ),
+  ];
+
   var allCategories = [];
   var categories = [];
   bool foundCategories = false;
   bool foundError = false;
 
-  void getCategories() async {
+  // ! shared-preferences, to get [token] of the user stored on device
+  late SharedPreferences localUserData;
+  String apiToken = '';
+
+  Future<void> loadApiToken() async {
+    localUserData = await SharedPreferences.getInstance();
+    String storedToken = localUserData.getString('ep_token') as String;
+
+    setState(() {
+      apiToken = storedToken;
+    });
+  }
+
+  Future<void> getCategories() async {
     // get url from EndPoint
     var url = Provider.of<EndPoint>(context, listen: false).endpoint;
     url += 'category/';
-    url += 'e264252b7c1f2c203e0c30dce207fbce89381704c53810bc1bb2826a4bdcc3e6';
+    url += apiToken;
 
     try {
       // final response = await get(Uri.parse(url));
@@ -36,6 +64,8 @@ class DiscoverPageState extends State<DiscoverPage> {
           categories = allCategories;
           foundCategories = true;
         });
+
+        // gotCategoriesOnce = true;
       }
     } catch (err) {
       // ! (checking mounted), to see that if the widget is still in the tree or not
@@ -50,12 +80,21 @@ class DiscoverPageState extends State<DiscoverPage> {
   @override
   void initState() {
     super.initState();
-    // * getting categories
-    getCategories();
+    // ! get api token
+    // ! then get categories
+    loadTokenAndCategories();
+  }
+
+  Future<void> loadTokenAndCategories() async {
+    await loadApiToken();
+    await getCategories();
   }
 
   @override
   Widget build(BuildContext context) {
+    // ! getting seller mode status
+    bool _sellerMode = Provider.of<UserMode>(context, listen: false).sellerMode;
+
     return Container(
       // width
       width: MediaQuery.of(context).size.width,
@@ -114,7 +153,9 @@ class DiscoverPageState extends State<DiscoverPage> {
               onChanged: searchBook,
             ),
           ),
+
           const SizedBox(height: 30),
+
           // categories title
           const Text(
             'Categories',
@@ -125,6 +166,28 @@ class DiscoverPageState extends State<DiscoverPage> {
             ),
           ),
           const SizedBox(height: 10),
+
+          // ! message for SELLER MODE
+          if (_sellerMode)
+            Container(
+              // padding
+              padding: const EdgeInsets.all(20),
+              // constraints
+              width: MediaQuery.of(context).size.width,
+              // child
+              child: const Text(
+                '⚠ You can only browse services while in seller mode. Exit seller mode to buy services.',
+              ),
+              // decoration
+              decoration: BoxDecoration(
+                color: Colors.white,
+                boxShadow: containerShadow,
+                borderRadius: containerRadius,
+              ),
+            ),
+
+          if (_sellerMode) const SizedBox(height: 10),
+
           // ListView
           if (foundCategories)
             Expanded(

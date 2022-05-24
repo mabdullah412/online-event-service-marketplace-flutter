@@ -27,15 +27,6 @@ class OrdersContainer extends StatelessWidget {
             'No orders yet',
             style: lightTextStyle,
           ),
-          Text(
-            'Find the right service for you.',
-            style: lightTextStyle,
-            textAlign: TextAlign.center,
-          ),
-          TextButton(
-            child: const Text('Explore the marketplace'),
-            onPressed: () {},
-          ),
         ],
       ),
     );

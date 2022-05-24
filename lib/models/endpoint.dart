@@ -9,8 +9,8 @@ class EndPoint with ChangeNotifier {
   String endpoint = 'http://192.168.94.84:3000/event_planner/api/';
 
   // * sets new enpoint
-  void setEndpoint(String endpoint) {
-    this.endpoint = 'http://' + endpoint + ':3000/event_planner/api/';
+  void setEndpoint(String target) {
+    endpoint = 'http://' + target + ':3000/event_planner/api/';
     notifyListeners();
   }
 }

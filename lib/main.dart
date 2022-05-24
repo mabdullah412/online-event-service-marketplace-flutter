@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
+import 'package:semester_project/models/user_mode.dart';
 import 'package:semester_project/screens/authentication_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(
           create: (context) => EndPoint(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => UserMode(),
         ),
       ],
 
