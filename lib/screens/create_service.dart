@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -182,7 +181,7 @@ class _CreateServiceState extends State<CreateService> {
     });
 
     var url = Provider.of<EndPoint>(context, listen: false).endpoint;
-    url += 'addService';
+    url += 'api/addService';
 
     try {
       // ! converting to formData

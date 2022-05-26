@@ -151,7 +151,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     });
 
     var url = Provider.of<EndPoint>(context, listen: false).endpoint;
-    url += 'addUser';
+    url += 'api/addUser';
 
     try {
       // ! converting to formData
@@ -275,7 +275,7 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
 
     // ! getting url
     var url = Provider.of<EndPoint>(context, listen: false).endpoint;
-    url += 'loginUser';
+    url += 'api/loginUser';
 
     try {
       // ! converting to formData

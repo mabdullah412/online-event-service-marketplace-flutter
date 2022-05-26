@@ -2,14 +2,12 @@ import 'package:flutter/material.dart';
 
 // installed packages
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:provider/provider.dart';
-import 'package:semester_project/models/token.dart';
 import 'package:semester_project/screens/settings_page.dart';
 
 // screens
 import 'profile_page.dart';
 import 'orders_page.dart';
-import 'discover_screen.dart';
+import 'discover_page.dart';
 import 'inbox_page.dart';
 import 'home_page.dart';
 

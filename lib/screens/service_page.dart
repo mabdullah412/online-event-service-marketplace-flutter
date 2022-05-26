@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_project/models/endpoint.dart';
 
 class ServicePage extends StatelessWidget {
   const ServicePage({
@@ -10,10 +12,13 @@ class ServicePage extends StatelessWidget {
     required this.sRating,
     required this.sPrice,
     required this.imageAddress,
+    required this.sSellerEmail,
   }) : super(key: key);
 
   // service seller
   final String sSeller;
+  // service seller email
+  final String sSellerEmail;
   // service name
   final String sName;
   // service description
@@ -27,6 +32,8 @@ class ServicePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var url = Provider.of<EndPoint>(context, listen: false).imageEndpoint;
+
     return Scaffold(
       body: Container(
         // width
@@ -55,8 +62,8 @@ class ServicePage extends StatelessWidget {
                       // * image
                       ClipRRect(
                         borderRadius: BorderRadius.circular(10),
-                        child: Image.asset(
-                          imageAddress,
+                        child: Image.network(
+                          url + imageAddress,
                           fit: BoxFit.cover,
                         ),
                       ),

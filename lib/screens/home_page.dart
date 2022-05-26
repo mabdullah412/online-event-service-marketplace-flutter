@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/user_mode.dart';
 import 'package:semester_project/screens/create_service.dart';
@@ -250,7 +251,7 @@ class HomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => CreateService(),
+                              builder: (context) => const CreateService(),
                             ),
                           );
                         },
@@ -258,6 +259,34 @@ class HomePageState extends State<HomePage> {
                         style: packageButtonStyle,
                       ),
                     )
+                  ],
+                ),
+              ),
+
+            if (_sellerMode) const SizedBox(height: 20),
+
+            // ! check your provided services
+            if (_sellerMode)
+              Container(
+                // padding
+                padding: const EdgeInsets.all(20),
+                // constraints
+                width: MediaQuery.of(context).size.width,
+                // decoration
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: containerShadow,
+                  borderRadius: containerRadius,
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: const Icon(PhosphorIcons.cards),
+                      label: const Text('My Services'),
+                      style: packageButtonStyle,
+                    ),
                   ],
                 ),
               ),

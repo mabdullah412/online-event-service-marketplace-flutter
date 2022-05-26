@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+import 'package:semester_project/models/endpoint.dart';
 import 'package:semester_project/screens/service_page.dart';
 import 'package:semester_project/widgets/add_to_package.dart';
 
@@ -12,10 +14,13 @@ class ServiceTile extends StatelessWidget {
     required this.sPrice,
     required this.sRating,
     required this.sSeller,
+    required this.sSellerEmail,
   }) : super(key: key);
 
   // service seller
   final String sSeller;
+  // service seller
+  final String sSellerEmail;
   // service name
   final String sName;
   // service description
@@ -59,6 +64,8 @@ class ServiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var url = Provider.of<EndPoint>(context, listen: false).imageEndpoint;
+
     return Container(
       // width
       width: MediaQuery.of(context).size.width,
@@ -108,8 +115,8 @@ class ServiceTile extends StatelessWidget {
           // * service image
           ClipRRect(
             borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              imageAddress,
+            child: Image.network(
+              url + imageAddress,
               fit: BoxFit.cover,
             ),
           ),
@@ -200,6 +207,7 @@ class ServiceTile extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => ServicePage(
                             sSeller: sSeller,
+                            sSellerEmail: sSellerEmail,
                             sName: sName,
                             sDescription: sDescription,
                             sRating: sRating,

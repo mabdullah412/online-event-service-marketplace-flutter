@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
 import 'package:semester_project/models/user_mode.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'services_page.dart';
+import './services_page.dart';
 
 class DiscoverPage extends StatefulWidget {
   const DiscoverPage({Key? key}) : super(key: key);
@@ -48,11 +48,10 @@ class DiscoverPageState extends State<DiscoverPage> {
   Future<void> getCategories() async {
     // get url from EndPoint
     var url = Provider.of<EndPoint>(context, listen: false).endpoint;
-    url += 'category/';
+    url += 'api/category/';
     url += apiToken;
 
     try {
-      // final response = await get(Uri.parse(url));
       final response = await Dio().get(url);
 
       final jsonData = response.data as List;
@@ -64,8 +63,6 @@ class DiscoverPageState extends State<DiscoverPage> {
           categories = allCategories;
           foundCategories = true;
         });
-
-        // gotCategoriesOnce = true;
       }
     } catch (err) {
       // ! (checking mounted), to see that if the widget is still in the tree or not
@@ -210,8 +207,6 @@ class DiscoverPageState extends State<DiscoverPage> {
                           MaterialPageRoute(
                             builder: (context) => ServicesPage(
                               cTitle: category['title'],
-                              cDescription: category['description'],
-                              cImageTitle: category['image_title'],
                             ),
                           ),
                         );
