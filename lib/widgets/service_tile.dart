@@ -15,10 +15,13 @@ class ServiceTile extends StatelessWidget {
     required this.sRating,
     required this.sSeller,
     required this.sSellerEmail,
+    required this.sId,
   }) : super(key: key);
 
   // service seller
   final String sSeller;
+  // service seller
+  final String sId;
   // service seller
   final String sSellerEmail;
   // service name
@@ -50,7 +53,7 @@ class ServiceTile extends StatelessWidget {
     showModalBottomSheet(
       context: context,
       builder: (context) {
-        return const AddToPackage();
+        return AddToPackage(sId: sId, sName: sName);
       },
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -165,7 +168,6 @@ class ServiceTile extends StatelessWidget {
             style: const TextStyle(
               color: Color(0xFF777777),
               fontWeight: FontWeight.w400,
-              // fontSize: 18,
             ),
           ),
           const SizedBox(height: 10),
@@ -207,6 +209,7 @@ class ServiceTile extends StatelessWidget {
                         MaterialPageRoute(
                           builder: (context) => ServicePage(
                             sSeller: sSeller,
+                            sId: sId,
                             sSellerEmail: sSellerEmail,
                             sName: sName,
                             sDescription: sDescription,

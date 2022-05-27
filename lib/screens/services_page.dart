@@ -144,6 +144,7 @@ class _ServicesPageState extends State<ServicesPage> {
           final service = services[index];
 
           return ServiceTile(
+            sId: service['id'],
             sSeller: service['s_name'],
             sSellerEmail: service['email'],
             sName: service['name'],

@@ -38,9 +38,7 @@ class PackagesContainer extends StatelessWidget {
             'assets/illustrations/no_packages.png',
             width: 100,
           ),
-          const SizedBox(
-            height: 30,
-          ),
+          const SizedBox(height: 30),
           Text(
             'You have created no packages yet',
             style: lightTextStyle,

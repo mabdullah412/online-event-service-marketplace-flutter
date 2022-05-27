@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/user_mode.dart';
-import 'package:semester_project/screens/create_service.dart';
+import 'package:semester_project/screens/create_service_page.dart';
 import 'package:semester_project/widgets/create_package.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -251,7 +251,7 @@ class HomePageState extends State<HomePage> {
                         onPressed: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
-                              builder: (context) => const CreateService(),
+                              builder: (context) => const CreateServicePage(),
                             ),
                           );
                         },
@@ -281,11 +281,20 @@ class HomePageState extends State<HomePage> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: const Icon(PhosphorIcons.cards),
-                      label: const Text('My Services'),
-                      style: packageButtonStyle,
+                    Text(
+                      'My Services',
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: primaryTextColor,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    const Text(
+                      'You haven\'t provided any services yet.',
+                      style: TextStyle(
+                        color: Color(0xFF777777),
+                      ),
                     ),
                   ],
                 ),

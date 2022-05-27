@@ -8,14 +8,14 @@ import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class CreateService extends StatefulWidget {
-  const CreateService({Key? key}) : super(key: key);
+class CreateServicePage extends StatefulWidget {
+  const CreateServicePage({Key? key}) : super(key: key);
 
   @override
-  State<CreateService> createState() => _CreateServiceState();
+  State<CreateServicePage> createState() => _CreateServicePageState();
 }
 
-class _CreateServiceState extends State<CreateService> {
+class _CreateServicePageState extends State<CreateServicePage> {
   // * styling
   // * 1. border-radius
   final containerRadius = BorderRadius.circular(10);
@@ -493,7 +493,8 @@ class _CreateServiceState extends State<CreateService> {
 
                     // * submit button
                     ElevatedButton(
-                      onPressed: _createService,
+                      onPressed:
+                          isCreatingService == false ? _createService : null,
                       child: isCreatingService == false
                           ? const Text('Create')
                           : const SizedBox(

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
 import 'package:semester_project/models/user_mode.dart';
-import 'package:semester_project/screens/authentication_screen.dart';
+import 'package:semester_project/screens/authentication_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 // screens
-import './screens/pageview_controller_screen.dart';
+import 'screens/pageview_controller_page.dart';
 
 Future main() async {
   WidgetsFlutterBinding.ensureInitialized();

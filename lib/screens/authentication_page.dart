@@ -5,8 +5,8 @@ import 'package:semester_project/models/endpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
-import 'package:semester_project/screens/pageview_controller_screen.dart';
-import './forgot_password_screen.dart';
+import 'package:semester_project/screens/pageview_controller_page.dart';
+import 'forgot_password_page.dart';
 
 enum AuthMode { signup, login }
 

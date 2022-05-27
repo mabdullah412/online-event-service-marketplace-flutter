@@ -13,10 +13,13 @@ class ServicePage extends StatelessWidget {
     required this.sPrice,
     required this.imageAddress,
     required this.sSellerEmail,
+    required this.sId,
   }) : super(key: key);
 
   // service seller
   final String sSeller;
+  // service seller
+  final String sId;
   // service seller email
   final String sSellerEmail;
   // service name
