@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:semester_project/screens/authentication_page.dart';
 import 'package:semester_project/widgets/edit_endpoint.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({Key? key}) : super(key: key);
 
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
   void _editEndpoint(BuildContext context) {
     showModalBottomSheet(
       context: context,
@@ -17,6 +24,48 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
       backgroundColor: Colors.white,
+    );
+  }
+
+  // ! shared-preferences, to get [token] of the user stored on device
+  late SharedPreferences localUserData;
+
+  String apiToken = '';
+
+  String userEmail = '';
+
+  Future<void> loadApiTokenAndEmail() async {
+    localUserData = await SharedPreferences.getInstance();
+    String storedToken = localUserData.getString('ep_token') as String;
+    String storedEmail = localUserData.getString('ep_email') as String;
+
+    setState(() {
+      apiToken = storedToken;
+      userEmail = storedEmail;
+    });
+  }
+
+  bool isLoggingOut = false;
+
+  Future<void> _logout() async {
+    localUserData = await SharedPreferences.getInstance();
+
+    // ! show loading spinner
+    setState(() {
+      isLoggingOut = true;
+    });
+
+    // * storing data locally
+    await localUserData.clear();
+
+    // ! stop showing loading spinner
+    setState(() {
+      isLoggingOut = false;
+    });
+
+    // ! go-to login/signup page
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(builder: (context) => const AuthenticationScreen()),
     );
   }
 
@@ -44,6 +93,7 @@ class SettingsPage extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // ! edit endpoint
               TextButton(
                 onPressed: () {
                   _editEndpoint(context);
@@ -52,7 +102,19 @@ class SettingsPage extends StatelessWidget {
                   title: Text('Edit Endpoint'),
                 ),
               ),
+
               const Divider(),
+
+              // ! edit endpoint
+              TextButton(
+                onPressed: _logout,
+                child: const ListTile(
+                  title: Text(
+                    'Logout',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              ),
             ],
           ),
         ),

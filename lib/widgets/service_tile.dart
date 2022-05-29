@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
+import 'package:semester_project/models/user_mode.dart';
 import 'package:semester_project/screens/service_page.dart';
 import 'package:semester_project/widgets/add_to_package.dart';
 
@@ -67,7 +68,11 @@ class ServiceTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // ! endpoint to GET image
     var url = Provider.of<EndPoint>(context, listen: false).imageEndpoint;
+
+    // ! getting seller mode status
+    bool _sellerMode = Provider.of<UserMode>(context, listen: false).sellerMode;
 
     return Container(
       // width
@@ -230,16 +235,20 @@ class ServiceTile extends StatelessWidget {
               Row(
                 children: [
                   // * save Button
-                  IconButton(
-                    onPressed: () {},
-                    tooltip: 'Save',
-                    icon: const Icon(PhosphorIcons.bookmarkSimple),
-                  ),
+                  // IconButton(
+                  //   onPressed: () {},
+                  //   tooltip: 'Save',
+                  //   icon: const Icon(PhosphorIcons.bookmarkSimple),
+                  // ),
 
                   // * add to package Button
                   IconButton(
                     onPressed: () {
-                      _addToPackage(context);
+                      if (_sellerMode == false) {
+                        _addToPackage(context);
+                      } else {
+                        null;
+                      }
                     },
                     tooltip: 'Add to package',
                     icon: const Icon(PhosphorIcons.listPlus),

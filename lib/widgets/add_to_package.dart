@@ -251,19 +251,13 @@ class _AddToPackageState extends State<AddToPackage> {
               Padding(
                 padding: const EdgeInsets.only(top: 20),
                 child: Column(
-                  children: [
-                    const Text(
+                  children: const [
+                    Text(
                       'You have no packages. Create a package to add services for buying.',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Color(0xFF777777),
                       ),
-                    ),
-                    const SizedBox(height: 10),
-                    TextButton.icon(
-                      onPressed: getPackages,
-                      icon: const Icon(PhosphorIcons.arrowCounterClockwiseBold),
-                      label: const Text('Refresh'),
                     ),
                   ],
                 ),

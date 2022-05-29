@@ -35,16 +35,19 @@ class _ServicesPageState extends State<ServicesPage> {
   bool foundServices = false;
   bool foundError = false;
 
-  // ! shared-preferences, to get [token] of the user stored on device
+  // ! shared-preferences, to get [token and email] of the user stored on device
   late SharedPreferences localUserData;
   String apiToken = '';
+  String userEmail = '';
 
-  Future<void> loadApiToken() async {
+  Future<void> loadApiTokenAndEmail() async {
     localUserData = await SharedPreferences.getInstance();
     String storedToken = localUserData.getString('ep_token') as String;
+    String storedEmail = localUserData.getString('ep_email') as String;
 
     setState(() {
       apiToken = storedToken;
+      userEmail = storedEmail;
     });
   }
 
@@ -88,7 +91,7 @@ class _ServicesPageState extends State<ServicesPage> {
   }
 
   Future<void> loadTokenAndData() async {
-    await loadApiToken();
+    await loadApiTokenAndEmail();
     await getServices();
   }
 
@@ -142,6 +145,10 @@ class _ServicesPageState extends State<ServicesPage> {
         itemCount: services.length,
         itemBuilder: (context, index) {
           final service = services[index];
+
+          if (userEmail == service['email']) {
+            return Container();
+          }
 
           return ServiceTile(
             sId: service['id'],
