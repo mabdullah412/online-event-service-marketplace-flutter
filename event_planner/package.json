@@ -1,0 +1,20 @@
+{
+  "name": "event_planner",
+  "version": "1.0.0",
+  "description": "semester project nodejs server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Muhammad Abdullah",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.0",
+    "express": "^4.17.3",
+    "multer": "^1.4.4",
+    "mysql": "^2.18.1",
+    "nodemon": "^2.0.16",
+    "path": "^0.12.7",
+    "sha.js": "^2.4.11"
+  }
+}
