@@ -8,6 +8,14 @@ In this modern world of technology, our app is designed to meet the needs of wed
 at the fingertips. It is a mobile-based application as well as a web-based application for event-related
 services. It allows the users to buy and provide services. It offers as a one-stop-shop space for the  to explore vendors/venues, hotels, photographers, and car rentals. This project is a starting point for a Flutter application. 
 
+## Working
+
+Allows the user to
+- [Search and add services to packages(packages are cart)]
+- [Checkout the package to place order]
+- [Enter seller mode to create and sell service]
+- [Enter seller mode and complete orders placed by buyers]
+
 ## Technologies
 
 The mobile application was made with flutter.
