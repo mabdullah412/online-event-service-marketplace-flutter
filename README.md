@@ -12,6 +12,7 @@ services. It allows the users to buy and provide services. It offers as a one-st
 
 The mobile application was made with flutter.
 Server was made with NodeJS and ExpressJS, and was hosted locally.
+NodeJS server provided in event_planner directory.
 Database was made with MySQL server, also hosted locally.
 
 ## Starting the Project
