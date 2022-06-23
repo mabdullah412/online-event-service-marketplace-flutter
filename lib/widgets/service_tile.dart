@@ -17,6 +17,7 @@ class ServiceTile extends StatelessWidget {
     required this.sSeller,
     required this.sSellerEmail,
     required this.sId,
+    required this.sLocation,
   }) : super(key: key);
 
   // service seller
@@ -33,6 +34,8 @@ class ServiceTile extends StatelessWidget {
   final double sRating;
   // price
   final double sPrice;
+  // location
+  final String sLocation;
   // image address
   final String imageAddress;
 
@@ -178,22 +181,23 @@ class ServiceTile extends StatelessWidget {
           const SizedBox(height: 10),
 
           // * Rating
-          Row(
-            children: [
-              const Icon(
-                PhosphorIcons.starFill,
-                color: Colors.amber,
-                size: 18,
-              ),
-              const SizedBox(width: 5),
-              Text(
-                sRating.toString(),
-                style: const TextStyle(
-                  color: Colors.amber,
-                ),
-              ),
-            ],
-          ),
+          // Row(
+          //   children: [
+          //     const Icon(
+          //       PhosphorIcons.starFill,
+          //       color: Colors.amber,
+          //       size: 18,
+          //     ),
+          //     const SizedBox(width: 5),
+          //     Text(
+          //       sRating.toString(),
+          //       style: const TextStyle(
+          //         color: Colors.amber,
+          //       ),
+          //     ),
+          //   ],
+          // ),
+          Text('Location: ' + sLocation),
 
           // * divider
           const Divider(color: Color(0xFF999999)),
@@ -221,6 +225,7 @@ class ServiceTile extends StatelessWidget {
                             sRating: sRating,
                             sPrice: sPrice,
                             imageAddress: imageAddress,
+                            sLocation: sLocation,
                           ),
                         ),
                       );
@@ -248,6 +253,20 @@ class ServiceTile extends StatelessWidget {
                         _addToPackage(context);
                       } else {
                         null;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              '⚠ Can\'t add to package while in seller mode.',
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              bottom: 20,
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
                       }
                     },
                     tooltip: 'Add to package',

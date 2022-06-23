@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
+import 'package:semester_project/models/user_mode.dart';
+import 'package:semester_project/widgets/add_to_package.dart';
 
 class ServicePage extends StatelessWidget {
   const ServicePage({
@@ -14,6 +16,7 @@ class ServicePage extends StatelessWidget {
     required this.imageAddress,
     required this.sSellerEmail,
     required this.sId,
+    required this.sLocation,
   }) : super(key: key);
 
   // service seller
@@ -30,12 +33,34 @@ class ServicePage extends StatelessWidget {
   final double sRating;
   // price
   final double sPrice;
+  // location
+  final String sLocation;
   // image address
   final String imageAddress;
+
+  // * open modal sheet for adding to package
+  void _addToPackage(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return AddToPackage(sId: sId, sName: sName);
+      },
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      backgroundColor: Colors.white,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     var url = Provider.of<EndPoint>(context, listen: false).imageEndpoint;
+
+    // ! getting seller mode status
+    bool _sellerMode = Provider.of<UserMode>(context, listen: false).sellerMode;
 
     return Scaffold(
       body: Container(
@@ -92,19 +117,19 @@ class ServicePage extends StatelessWidget {
                               ),
                             ),
                             // * bookmark-btn
-                            Container(
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(225, 255, 255, 255),
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                              child: IconButton(
-                                onPressed: () {},
-                                color: Colors.grey,
-                                icon: const Icon(
-                                  PhosphorIcons.bookmarkSimpleBold,
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   decoration: BoxDecoration(
+                            //     color: const Color.fromARGB(225, 255, 255, 255),
+                            //     borderRadius: BorderRadius.circular(50),
+                            //   ),
+                            //   child: IconButton(
+                            //     onPressed: () {},
+                            //     color: Colors.grey,
+                            //     icon: const Icon(
+                            //       PhosphorIcons.bookmarkSimpleBold,
+                            //     ),
+                            //   ),
+                            // ),
                           ],
                         ),
                       ),
@@ -191,11 +216,11 @@ class ServicePage extends StatelessWidget {
                   const SizedBox(height: 15),
 
                   // * service tags
-                  const Text(
-                    'Tags',
-                    style: TextStyle(fontWeight: FontWeight.w500),
-                  ),
-                  const SizedBox(height: 10),
+                  // const Text(
+                  //   'Tags',
+                  //   style: TextStyle(fontWeight: FontWeight.w500),
+                  // ),
+                  // const SizedBox(height: 10),
 
                   const SizedBox(height: 15),
 
@@ -204,14 +229,21 @@ class ServicePage extends StatelessWidget {
                     'Location',
                     style: TextStyle(fontWeight: FontWeight.w500),
                   ),
+
                   const SizedBox(height: 10),
-                  Container(
-                    height: 250,
-                    decoration: BoxDecoration(
-                      color: Colors.grey,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
+
+                  Text(
+                    sLocation,
+                    style: const TextStyle(color: Colors.grey),
                   ),
+
+                  // Container(
+                  //   height: 250,
+                  //   decoration: BoxDecoration(
+                  //     color: Colors.grey,
+                  //     borderRadius: BorderRadius.circular(10),
+                  //   ),
+                  // ),
 
                   // * white spacing
                   const SizedBox(height: 10),
@@ -229,9 +261,45 @@ class ServicePage extends StatelessWidget {
                 horizontal: 20,
               ),
               // child
-              child: Text(
-                'Rs. ' + sPrice.toString(),
-                style: const TextStyle(),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'Rs. ' + sPrice.toString(),
+                    style: const TextStyle(),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      if (_sellerMode == false) {
+                        _addToPackage(context);
+                      } else {
+                        null;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              '⚠ Can\'t add to package while in seller mode.',
+                            ),
+                            behavior: SnackBarBehavior.floating,
+                            margin: EdgeInsets.only(
+                              left: 20,
+                              right: 20,
+                              bottom: 20,
+                            ),
+                            duration: Duration(seconds: 2),
+                          ),
+                        );
+                      }
+                    },
+                    style: ButtonStyle(
+                      shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(25),
+                        ),
+                      ),
+                    ),
+                    child: const Text('Add to package'),
+                  ),
+                ],
               ),
               // decoration
               decoration: const BoxDecoration(

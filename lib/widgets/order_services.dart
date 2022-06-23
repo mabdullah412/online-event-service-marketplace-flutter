@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
 import 'package:semester_project/screens/service_page.dart';
@@ -172,6 +173,8 @@ class _OrderServicesState extends State<OrderServices> {
                   itemBuilder: (context, index) {
                     final item = items[index];
 
+                    final orderStatus = item['status'];
+
                     return ListTile(
                       // * on Tap
                       onTap: () {
@@ -187,20 +190,34 @@ class _OrderServicesState extends State<OrderServices> {
                               sRating: double.parse(item['rating'].toString()),
                               sPrice: double.parse(item['price'].toString()),
                               imageAddress: item['image_title'],
+                              sLocation: item['location'],
                             ),
                           ),
                         );
                       },
 
                       // * image
-                      leading: ClipRRect(
-                        borderRadius: BorderRadius.circular(10),
-                        child: Image.network(
-                          url + item['image_title'],
-                          fit: BoxFit.cover,
-                          height: 50,
-                          width: 50,
-                        ),
+                      leading: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          // ! image
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.network(
+                              url + item['image_title'],
+                              fit: BoxFit.cover,
+                              height: 50,
+                              width: 50,
+                            ),
+                          ),
+
+                          // ! order-completed or not
+                          if (orderStatus == 'completed')
+                            const Icon(
+                              PhosphorIcons.checkCircleBold,
+                              color: Colors.white,
+                            ),
+                        ],
                       ),
 
                       // * title

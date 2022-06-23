@@ -1,8 +1,11 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:semester_project/models/endpoint.dart';
 import 'package:semester_project/models/user_mode.dart';
 import 'package:semester_project/screens/create_service_page.dart';
+import 'package:semester_project/screens/service_page.dart';
 import 'package:semester_project/widgets/create_package.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -54,30 +57,178 @@ class HomePageState extends State<HomePage> {
     );
   }
 
-  String username = '';
-
   // ! shared-preferences, to get [username] of the user stored on device
+  String username = '';
+  String apiToken = '';
+  String userEmail = '';
+
   late SharedPreferences localUserData;
+  Future loadUsernameTokenEmail() async {
+    localUserData = await SharedPreferences.getInstance();
+    String storedName = localUserData.getString('ep_username') as String;
+    String storedToken = localUserData.getString('ep_token') as String;
+    String storedEmail = localUserData.getString('ep_email') as String;
+
+    setState(() {
+      username = storedName;
+      apiToken = storedToken;
+      userEmail = storedEmail;
+    });
+  }
+
+  // ! get my services
+  var services = [];
+  bool foundServices = false;
+  bool foundError = false;
+
+  Future<void> getMyServices() async {
+    // get url from EndPoint
+    var url = Provider.of<EndPoint>(context, listen: false).endpoint;
+    url += 'api/myservices/';
+    // adding id of the order
+    url += userEmail + '/';
+    // adding token
+    url += apiToken;
+
+    try {
+      final response = await Dio().get(url);
+
+      final jsonData = response.data as List;
+
+      // ! (checking mounted), to see that if the widget is still in the tree or not
+      if (mounted) {
+        setState(() {
+          services = jsonData;
+          foundServices = true;
+        });
+      }
+    } catch (err) {
+      // ! (checking mounted), to see that if the widget is still in the tree or not
+      if (mounted) {
+        setState(() {
+          foundError = true;
+        });
+      }
+    }
+  }
+
+  bool isRemovingService = false;
+
+  Future<void> _removeService(String serviceId) async {
+    // ! get url from EndPoint
+    var url = Provider.of<EndPoint>(context, listen: false).endpoint;
+    url += 'api/removeService';
+
+    try {
+      // ! converting to formData
+      final formData = FormData.fromMap({
+        'serviceId': serviceId,
+        'token': apiToken,
+      });
+
+      final response = await Dio().post(url, data: formData);
+
+      if (response.toString() == 'removed') {
+        // ! err
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('👍 Service removed successfully'),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 20,
+            ),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      } else {
+        // ! err
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('⚠ Could not remove service'),
+            behavior: SnackBarBehavior.floating,
+            margin: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              bottom: 20,
+            ),
+            duration: Duration(seconds: 2),
+          ),
+        );
+      }
+    } catch (err) {
+      // ! err
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠ Error calling request'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+    }
+  }
+
+  // ! sales data
+  int salesCount = 0;
+  bool foundCount = false;
+  bool isLoadingSales = true;
+
+  // ! load sales
+  Future<void> getSalesCount() async {
+    // * if user refreshes, go back to loading screen
+    setState(() {
+      isLoadingSales = true;
+    });
+
+    // get url from EndPoint
+    var url = Provider.of<EndPoint>(context, listen: false).endpoint;
+    url += 'api/salesCount/';
+    url += userEmail + '/';
+    url += apiToken;
+
+    try {
+      final response = await Dio().get(url);
+      salesCount = response.data['COUNT(*)'];
+
+      // ! (checking mounted), to see that if the widget is still in the tree or not
+      if (mounted) {
+        setState(() {
+          foundCount = true;
+        });
+      }
+      // *
+
+    } catch (err) {
+      // ! (checking mounted), to see that if the widget is still in the tree or not
+      if (mounted) {
+        setState(() {});
+      }
+    }
+  }
 
   @override
   void initState() {
     super.initState();
-    loadUsername();
+    loadSPAndData();
   }
 
-  Future loadUsername() async {
-    localUserData = await SharedPreferences.getInstance();
-    String storedName = localUserData.getString('ep_username') as String;
-
-    setState(() {
-      username = storedName;
-    });
+  Future<void> loadSPAndData() async {
+    await loadUsernameTokenEmail();
+    getSalesCount();
+    getMyServices();
   }
 
   @override
   Widget build(BuildContext context) {
     // ! getting seller mode status
     bool _sellerMode = Provider.of<UserMode>(context, listen: false).sellerMode;
+    var url = Provider.of<EndPoint>(context, listen: false).imageEndpoint;
 
     return SingleChildScrollView(
       child: Container(
@@ -124,8 +275,7 @@ class HomePageState extends State<HomePage> {
                 width: MediaQuery.of(context).size.width,
 
                 // height
-                // 265 => appbar height + paddings + navbar height + white-spacing
-                height: MediaQuery.of(context).size.height - 270,
+                height: 200,
 
                 // padding
                 padding: const EdgeInsets.all(15),
@@ -156,14 +306,6 @@ class HomePageState extends State<HomePage> {
                         ],
                       ),
                     ),
-                    Container(
-                      height: 150,
-                      // decoration
-                      decoration: BoxDecoration(
-                        color: const Color.fromARGB(200, 255, 255, 255),
-                        borderRadius: containerRadius,
-                      ),
-                    ),
                   ],
                 ),
 
@@ -179,7 +321,7 @@ class HomePageState extends State<HomePage> {
                 ),
               ),
 
-            const SizedBox(height: 20),
+            if (_sellerMode) const SizedBox(height: 20),
 
             // ! Dashboard
             if (_sellerMode)
@@ -205,7 +347,15 @@ class HomePageState extends State<HomePage> {
                         color: primaryTextColor,
                       ),
                     ),
-                    const SizedBox(height: 100),
+                    const SizedBox(height: 10),
+                    ListTile(
+                      leading: CircleAvatar(
+                        child: Text(salesCount.toString()),
+                        backgroundColor: const Color(0xFF333333),
+                      ),
+                      title: const Text('Order(s) waiting to be completed'),
+                    ),
+                    // const SizedBox(height: 100),
                   ],
                 ),
               ),
@@ -290,12 +440,97 @@ class HomePageState extends State<HomePage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    const Text(
-                      'You haven\'t provided any services yet.',
-                      style: TextStyle(
-                        color: Color(0xFF777777),
+
+                    // ! if services are found
+                    if (services.isEmpty)
+                      const Text(
+                        'You haven\'t provided any services yet.',
+                        style: TextStyle(
+                          color: Color(0xFF777777),
+                        ),
+                      )
+                    else if (foundServices)
+                      SizedBox(
+                        height: 120,
+                        child: ListView.builder(
+                          itemCount: services.length,
+                          itemBuilder: (context, index) {
+                            final service = services[index];
+
+                            return ListTile(
+                              // * on Tap
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ServicePage(
+                                      sId: service['id'],
+                                      sSeller: service['s_name'],
+                                      sSellerEmail: service['email'],
+                                      sName: service['name'],
+                                      sDescription: service['description'],
+                                      sRating: double.parse(
+                                          service['rating'].toString()),
+                                      sPrice: double.parse(
+                                          service['price'].toString()),
+                                      imageAddress: service['image_title'],
+                                      sLocation: service['location'],
+                                    ),
+                                  ),
+                                );
+                              },
+
+                              // * image
+                              leading: ClipRRect(
+                                borderRadius: BorderRadius.circular(10),
+                                child: Image.network(
+                                  url + service['image_title'],
+                                  fit: BoxFit.cover,
+                                  height: 50,
+                                  width: 50,
+                                ),
+                              ),
+
+                              // * title
+                              title: Text(service['name']),
+
+                              // * price
+                              subtitle: Text(
+                                'Rs. ' + service['price'].toString(),
+                              ),
+
+                              // * quantity
+                              trailing: IconButton(
+                                onPressed: () async {
+                                  // ! show loading spinner
+                                  setState(() {
+                                    isRemovingService = true;
+                                  });
+
+                                  await _removeService(service['id']);
+
+                                  // ! stop-showing loading spinner
+                                  setState(() {
+                                    isRemovingService = false;
+                                  });
+                                },
+                                icon: isRemovingService == false
+                                    ? const Icon(
+                                        PhosphorIcons.trashBold,
+                                        color: Colors.red,
+                                      )
+                                    : const CircularProgressIndicator(),
+                              ),
+                            );
+                          },
+                        ),
+                      )
+                    // ! if services are found, but are empty list
+
+                    else
+                      const Center(
+                        child: CircularProgressIndicator(),
                       ),
-                    ),
                   ],
                 ),
               ),

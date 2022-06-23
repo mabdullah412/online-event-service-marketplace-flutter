@@ -3,6 +3,7 @@ import 'package:semester_project/widgets/orders_container.dart';
 import 'package:semester_project/widgets/packages_container.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/user_mode.dart';
+import 'package:semester_project/widgets/sales_container.dart';
 
 class OrdersPage extends StatefulWidget {
   const OrdersPage({Key? key}) : super(key: key);
@@ -41,14 +42,17 @@ class OrdersPageState extends State<OrdersPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ! orders-container
-              const OrdersContainer(),
+              // ! orders-container >> only shown in buyer mode
+              if (_sellerMode == false) const OrdersContainer(),
 
-              // ! white-spacing
-              const SizedBox(height: 60),
+              // ! white-spacing >> only shown in buyer mode
+              if (_sellerMode == false) const SizedBox(height: 60),
 
               // ! packages-container >> only shown in buyer mode
               if (_sellerMode == false) const PackagesContainer(),
+
+              // ! sales-container
+              if (_sellerMode) const SalesContainer(),
             ],
           ),
         ),

@@ -13,7 +13,7 @@ Future main() async {
 
   // ! used to check, if signUp/logIn screen needs to be shown or not
   final localUserData = await SharedPreferences.getInstance();
-  await localUserData.setBool('ep_loggedin', false);
+  // await localUserData.setBool('ep_loggedin', false);
   final isLoggedIn = localUserData.getBool('ep_loggedin') ?? false;
 
   runApp(

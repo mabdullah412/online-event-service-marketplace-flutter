@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
+import 'package:semester_project/widgets/edit_endpoint.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
@@ -251,6 +252,21 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
       );
 
       return;
+    } else if (!emailText.contains('@') || !emailText.endsWith('.com')) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('⚠ Invalid email format'),
+          behavior: SnackBarBehavior.floating,
+          margin: EdgeInsets.only(
+            left: 20,
+            right: 20,
+            bottom: 20,
+          ),
+          duration: Duration(seconds: 2),
+        ),
+      );
+
+      return;
     } else if (passwordText == '') {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -363,6 +379,23 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
     setState(() {
       isAddingUser = false;
     });
+  }
+
+  // ! edit endpoint,
+  void _editEndpoint(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) {
+        return const EditEndpoint();
+      },
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
+        ),
+      ),
+      backgroundColor: Colors.white,
+    );
   }
 
   @override
@@ -576,6 +609,15 @@ class _AuthenticationScreenState extends State<AuthenticationScreen> {
                     ),
                   ],
                 ),
+              ),
+
+              // ! edit endpoint
+              TextButton.icon(
+                onPressed: () {
+                  _editEndpoint(context);
+                },
+                icon: const Icon(PhosphorIcons.pencilSimple),
+                label: const Text('Edit Endpoint'),
               ),
             ],
           ),

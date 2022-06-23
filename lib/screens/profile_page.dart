@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/user_mode.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -24,6 +25,25 @@ class ProfilePageState extends State<ProfilePage> {
     ),
   ];
 
+  // ! shared-preferences, to get [username] of the user stored on device
+  String username = '';
+
+  late SharedPreferences localUserData;
+  Future loadUsername() async {
+    localUserData = await SharedPreferences.getInstance();
+    String storedName = localUserData.getString('ep_username') as String;
+
+    setState(() {
+      username = storedName;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    loadUsername();
+  }
+
   @override
   Widget build(BuildContext context) {
     // ! seller mode
@@ -45,17 +65,17 @@ class ProfilePageState extends State<ProfilePage> {
           // ! user info
           Container(
             width: MediaQuery.of(context).size.width,
-            child: const ListTile(
-              contentPadding: EdgeInsets.symmetric(
+            child: ListTile(
+              contentPadding: const EdgeInsets.symmetric(
                 vertical: 20,
                 horizontal: 20,
               ),
-              leading: CircleAvatar(
+              leading: const CircleAvatar(
                 child: Icon(PhosphorIcons.userBold),
                 backgroundColor: Color(0xFF333333),
                 radius: 30,
               ),
-              title: Text('Muhammad Abdullah'),
+              title: Text(username),
             ),
             decoration: BoxDecoration(
               color: Colors.white,

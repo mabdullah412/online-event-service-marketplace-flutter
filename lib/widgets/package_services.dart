@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:semester_project/models/endpoint.dart';
 import 'package:semester_project/screens/service_page.dart';
@@ -329,6 +328,7 @@ class _PackageServicesState extends State<PackageServices> {
                               sRating: double.parse(item['rating'].toString()),
                               sPrice: double.parse(item['price'].toString()),
                               imageAddress: item['image_title'],
+                              sLocation: item['location'],
                             ),
                           ),
                         );

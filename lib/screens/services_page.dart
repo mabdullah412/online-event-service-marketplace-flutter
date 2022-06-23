@@ -157,6 +157,7 @@ class _ServicesPageState extends State<ServicesPage> {
             sName: service['name'],
             sPrice: double.parse(service['price'].toString()),
             sRating: double.parse(service['rating'].toString()),
+            sLocation: service['location'],
             sDescription: service['description'],
             imageAddress: service['image_title'],
           );
